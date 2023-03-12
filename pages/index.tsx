@@ -1,10 +1,9 @@
 import Head from "next/head";
-import * as d3 from "d3";
-import { Inter } from "next/font/google";
 import BackgroundArt from "@/components/Dashboard/BackgroundArt";
 import NavigationBar from "@/components/Dashboard/NavigationBar/NavigationBar";
+import { Poppins } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export default function Home() {
   return (
@@ -15,7 +14,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen">
+      <div className="min-h-screen" style={poppins.style}>
         <BackgroundArt />
         <NavigationBar />
 

@@ -32,7 +32,7 @@ export default function Child_UserDropdown() {
 
   function openDropdown(e) {
     e.stopPropagation();
-    dropdownRef.current.classList.toggle("hidden");
+    dropdownRef.current.classList.remove("hidden");
   }
 
   return (
