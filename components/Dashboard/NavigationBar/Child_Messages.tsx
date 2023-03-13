@@ -53,7 +53,7 @@ export default function Child_Messages() {
                 },
               }}
               exit={{ x: "100%" }}
-              className="absolute top-0 right-0 min-w-[300px] h-screen bg-gray-700"
+              className="absolute top-0 right-0 min-w-[400px] h-screen bg-gray-700"
             >
               {/* Tab Switchers */}
               <ul className="w-full flex justify-evenly pt-8">
