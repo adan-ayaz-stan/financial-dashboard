@@ -67,7 +67,7 @@ export default function Child_Messages() {
                       ? { borderBottom: "1.5px solid white" }
                       : {}
                   }
-                  className="border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
+                  className="px-3 border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
                 >
                   Notes
                 </li>
@@ -81,7 +81,7 @@ export default function Child_Messages() {
                       ? { borderBottom: "1.5px solid white" }
                       : {}
                   }
-                  className="border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
+                  className="px-3 border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
                 >
                   Alerts
                 </li>
@@ -95,13 +95,13 @@ export default function Child_Messages() {
                       ? { borderBottom: "1.5px solid white" }
                       : {}
                   }
-                  className="border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
+                  className="px-3 border-b-[1.5px] border-transparent hover:border-white transition-all duration-400"
                 >
                   Chat
                 </li>
               </ul>
               {/* Display Box */}
-              <div className="min-h-[90%] rounded-xl bg-gray-900">
+              <div className="min-h-[90%] max-h-[90%] rounded-xl bg-gray-900 overflow-auto">
                 <AnimatePresence>
                   {focusedFeature == "notes" && <Child_Messages__Notes />}
                   {focusedFeature == "alerts" && <Child_Messages__Alerts />}
