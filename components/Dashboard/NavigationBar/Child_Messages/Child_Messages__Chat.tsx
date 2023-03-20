@@ -1,15 +1,16 @@
 import { Chat_User } from "@/types/chat_data";
 import { motion } from "framer-motion";
 import { Poppins } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlinePlus } from "react-icons/ai";
-import { BsThreeDots } from "react-icons/bs";
+import { BsSend, BsThreeDots } from "react-icons/bs";
 
 import data from "../../../../assets/chat_data.json";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "700" });
 
 export default function Child_Messages__Chat() {
+  const [chats, setChats] = useState([]);
   const [chattingWith, setChattingWith] = useState<Chat_User>();
 
   function categorizeUsersByName(users: Chat_User[]) {
@@ -43,9 +44,14 @@ export default function Child_Messages__Chat() {
     return categorizedUsersArray;
   }
 
-  const allUsers = categorizeUsersByName(data).sort(
-    (a, b) => `${a.letter}`.charCodeAt(0) - `${b.letter}`.charCodeAt(0)
-  );
+  useEffect(() => {
+    return () => {
+      const chatUsers = categorizeUsersByName(data).sort(
+        (a, b) => `${a.letter}`.charCodeAt(0) - `${b.letter}`.charCodeAt(0)
+      );
+      setChats(chatUsers);
+    };
+  }, []);
 
   function chatWithUser(userData: Chat_User) {
     setChattingWith(userData);
@@ -71,7 +77,7 @@ export default function Child_Messages__Chat() {
 
       {chattingWith?._id == undefined && (
         <>
-          {allUsers.map((ele, ind) => {
+          {chats.map((ele, ind) => {
             return (
               <div key={ind + 6996} className="h-fit">
                 <h2
@@ -107,20 +113,116 @@ export default function Child_Messages__Chat() {
 
       {/* Chat Box */}
       {chattingWith?._id != undefined && (
-        <ChatBox user={chattingWith} closeChat={setChattingWith} />
+        <ChatBox
+          user={chattingWith}
+          closeChat={setChattingWith}
+          setChats={setChats}
+          categorizeUsersByName={categorizeUsersByName}
+        />
       )}
     </motion.div>
   );
 }
 
-function ChatBox({ user, closeChat }: { user: Chat_User; closeChat: any }) {
+const dummyData = [
+  {
+    author: "you",
+    message: "Lorem Ipsum Donor",
+  },
+  {
+    author: "a",
+    message: "Lorem Ipsum Donor",
+  },
+  {
+    author: "you",
+    message: "Lorem Ipsum Donor",
+  },
+  {
+    author: "a",
+    message: "Lorem Ipsum Donor",
+  },
+  {
+    author: "a",
+    message: "Lorem Ipsum Donor",
+  },
+  {
+    author: "you",
+    message: "Lorem Ipsum Donor",
+  },
+];
+
+function ChatBox({
+  user,
+  closeChat,
+  setChats,
+  categorizeUsersByName,
+}: {
+  user: Chat_User;
+  closeChat: any;
+  setChats: any;
+  categorizeUsersByName: any;
+}) {
+  const [chatData, setChatData] = useState(dummyData);
+
+  const messagesContainerRef = useRef(null);
+  const dropdownRef = useRef(null);
+
   function closeChatBox() {
     closeChat({});
   }
 
+  function toggleDropdown() {
+    dropdownRef.current.classList.toggle("hidden");
+  }
+
+  function deleteChat(userID: string) {
+    closeChatBox();
+    dropdownRef.current.classList.add("hidden");
+
+    setChats((prevValue) => {
+      const filteredData = data.filter((ele, ind) => ele._id != userID);
+      const newChatData = categorizeUsersByName(filteredData).sort(
+        (a, b) => `${a.letter}`.charCodeAt(0) - `${b.letter}`.charCodeAt(0)
+      );
+
+      return [...newChatData];
+    });
+  }
+
+  function sendMessage(e) {
+    e.preventDefault();
+    const formdata = new FormData(e.currentTarget);
+    const message = `${formdata.get("message")}`;
+
+    const newMessage: { message: string; author: string } = {
+      message,
+      author: "you",
+    };
+    if (message != "") {
+      setChatData((prevValue): { message: string; author: string }[] => {
+        return [...prevValue, newMessage];
+      });
+    }
+    messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollTopMax;
+    e.currentTarget.reset();
+  }
+
+  useEffect(() => {
+    return () => {
+      if (messagesContainerRef.current != null || undefined) {
+        messagesContainerRef.current.scrollTop =
+          messagesContainerRef.current.scrollTopMax;
+      }
+    };
+  });
+
   return (
-    <div className="absolute top-0 left-0 w-full h-full bg-gray-800">
-      <div className="flex justify-between items-center py-4 px-6 border-b-solid border-b-[1.5px] border-b-gray-600">
+    <div
+      ref={messagesContainerRef}
+      className="absolute top-0 left-0 w-full h-[90vh] bg-gray-800 overflow-y-scroll"
+    >
+      <div className="sticky top-0 w-full flex justify-between items-center py-4 px-6 bg-gray-800">
         <AiOutlineArrowLeft
           size={25}
           onClick={closeChatBox}
@@ -132,8 +234,59 @@ function ChatBox({ user, closeChat }: { user: Chat_User; closeChat: any }) {
           <p className="text-[12px] text-gray-300">[online status]</p>
         </div>
 
-        <BsThreeDots size={25} className="p-1 bg-gray-600 rounded" />
+        <div className="relative">
+          <BsThreeDots
+            size={25}
+            onClick={toggleDropdown}
+            className="p-1 bg-gray-600 rounded"
+          />
+
+          <div
+            ref={dropdownRef}
+            className="dropdown hidden absolute top-[110%] right-0 w-fit whitespace-nowrap p-2 text-sm bg-gray-800 border-[1.5px] rounded"
+          >
+            <div
+              onClick={() => deleteChat(user._id)}
+              className="text-red-500 hover:text-red-600"
+            >
+              Delete chat
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div className="min-h-full h-fit flex flex-col items-center justify-end gap-2 py-3 text-sm">
+        {chatData.map((ele, ind) => {
+          return (
+            <div
+              key={ind + "chatmessage"}
+              className="w-full px-3 flex gap-2"
+              style={{
+                flexFlow: ele.author == "you" ? "row-reverse" : "row",
+              }}
+            >
+              <div className="min-w-8 min-w-8 h-8 w-8 border-solid border-2 rounded-full"></div>
+              <div className="max-w-[75%] p-3 bg-blue-500 text-[12px] rounded-lg">
+                <span className="w-fit">{ele.message}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <form
+        onSubmit={sendMessage}
+        className="sticky bottom-0 flex justify-between items-center px-6 py-2 bg-gray-800"
+      >
+        <input
+          name="message"
+          autoComplete="off"
+          className="w-5/6 p-2 bg-gray-700 text-sm text-white outline-none rounded"
+        />
+        <button type="submit" className="bg-blue-700 p-2 rounded">
+          <BsSend size={22} />
+        </button>
+      </form>
     </div>
   );
 }

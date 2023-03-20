@@ -1,0 +1,88 @@
+{
+    "user": {
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "phone": "+1 (555) 555-5555",
+      "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345",
+        "country": "USA"
+      }
+    },
+    "accounts": [
+      {
+        "id": "1234567890",
+        "name": "Checking",
+        "institution": "Bank of America",
+        "balance": 10000,
+        "transactions": [
+          {
+            "date": "2022-02-15",
+            "description": "Deposit",
+            "amount": 5000
+          },
+          {
+            "date": "2022-02-28",
+            "description": "ATM Withdrawal",
+            "amount": -1000
+          }
+        ]
+      },
+      {
+        "id": "0987654321",
+        "name": "Savings",
+        "institution": "Chase",
+        "balance": 25000,
+        "transactions": [
+          {
+            "date": "2022-02-01",
+            "description": "Interest",
+            "amount": 100
+          },
+          {
+            "date": "2022-02-28",
+            "description": "Transfer to Checking",
+            "amount": -5000
+          }
+        ]
+      }
+    ],
+    "investments": [
+      {
+        "id": "abcdefg",
+        "name": "Tech Fund",
+        "type": "mutual fund",
+        "balance": 5000,
+        "transactions": [
+          {
+            "date": "2022-01-01",
+            "description": "Purchase",
+            "amount": -5000
+          },
+          {
+            "date": "2022-03-01",
+            "description": "Sale",
+            "amount": 6000
+          }
+        ]
+      }
+    ],
+    "expenses": [
+      {
+        "id": "qwerty",
+        "name": "Rent",
+        "type": "Housing",
+        "amount": 2000,
+        "date": "2022-02-01"
+      },
+      {
+        "id": "asdfgh",
+        "name": "Groceries",
+        "type": "Food",
+        "amount": 500,
+        "date": "2022-02-15"
+      }
+    ]
+  }

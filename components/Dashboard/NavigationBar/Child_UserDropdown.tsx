@@ -32,13 +32,21 @@ export default function Child_UserDropdown() {
 
   function openDropdown(e) {
     e.stopPropagation();
+
+    // Getting all dropdowns and adding the 'hidden' class to them a.k.a closing them
+    const allDropdowns = document.getElementsByClassName("dropdown");
+    for (let i = 0; i < allDropdowns.length; i++) {
+      const dropdown = allDropdowns.item(i);
+      dropdown?.classList.add("hidden");
+    }
+
     dropdownRef.current.classList.remove("hidden");
   }
 
   return (
     <div
       onClick={openDropdown}
-      className="relative z-10 flex items-center justify-center gap-3 p-3 py-1 ml-auto bg-gray-800 rounded-lg cursor-pointer"
+      className="relative z-10 hidden lg:flex items-center justify-center gap-3 p-3 py-1 ml-auto bg-gray-800 rounded-lg cursor-pointer"
       style={poppins.style}
       ref={dropdownParentRef}
     >
@@ -57,7 +65,7 @@ export default function Child_UserDropdown() {
       {/* Dropdown */}
       <div
         ref={dropdownRef}
-        className="hidden absolute top-[110%] left-0 w-full flex flex-col gap-3 p-3 px-5 text-sm text-gray-300 bg-gray-800 rounded-md"
+        className="dropdown hidden absolute top-[110%] left-0 w-full flex flex-col gap-3 p-3 px-5 text-sm text-gray-300 bg-gray-800 rounded-md"
       >
         <div className="flex gap-3 items-center">
           <AiOutlineProfile size={25} className="text-blue-500" />

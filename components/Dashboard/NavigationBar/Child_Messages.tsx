@@ -23,13 +23,19 @@ export default function Child_Messages() {
   }
 
   return (
-    <div className="relative flex items-center justify-center p-2 bg-gray-800 rounded cursor-pointer">
-      <AiOutlineMail onClick={openMessageSidebox} size={25} />
+    <div
+      onClick={openMessageSidebox}
+      className="relative flex items-center justify-center p-2 bg-gray-800 rounded cursor-pointer"
+    >
+      <AiOutlineMail size={25} />
 
       <AnimatePresence>
         {openMessageSidebar && (
           <motion.div
-            onClick={closeMessageSidebox}
+            onClick={(e) => {
+              e.stopPropagation();
+              closeMessageSidebox();
+            }}
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
@@ -53,7 +59,7 @@ export default function Child_Messages() {
                 },
               }}
               exit={{ x: "100%" }}
-              className="absolute top-0 right-0 min-w-[400px] h-screen bg-gray-700"
+              className="absolute top-0 right-0 w-[90vw] md:w-fit md:min-w-[400px] h-screen bg-gray-700"
             >
               {/* Tab Switchers */}
               <ul className="w-full flex justify-evenly pt-8">

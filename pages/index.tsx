@@ -2,8 +2,18 @@ import Head from "next/head";
 import BackgroundArt from "@/components/Dashboard/BackgroundArt";
 import NavigationBar from "@/components/Dashboard/NavigationBar/NavigationBar";
 import { Poppins } from "next/font/google";
+import Balance from "@/components/Dashboard/Balance";
+import Statistics from "@/components/Dashboard/Statistics";
+import { AiOutlinePieChart, AiOutlineStock } from "react-icons/ai";
+import Others from "@/components/Dashboard/Others";
+import SavingsAndInvestments from "@/components/Dashboard/SavingsAndInvestments";
+import FinancialOverview from "@/components/Dashboard/FinancialOverview";
+import Expenses from "@/components/Dashboard/Expenses";
 
-const poppins = Poppins({ subsets: ["latin"], weight: "400" });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export default function Home() {
   return (
@@ -18,9 +28,28 @@ export default function Home() {
         <BackgroundArt />
         <NavigationBar />
 
-        <div className="absolute top-0 left-0 min-h-screen h-fit w-screen">
-          <div className="h-screen w-screen">Content</div>
-          <div className="h-screen w-screen">Content</div>
+        <div className="absolute top-0 left-0 min-h-screen h-fit w-screen pt-[7em] py-6 px-8">
+          <div className="grid grid-cols-12 auto-rows-auto gap-6">
+            {/* Balance Summary */}
+            <Balance />
+
+            {/* Statistics */}
+            <Statistics />
+
+            {/* Others */}
+            <Others />
+          </div>
+
+          <div className="grid grid-cols-12 auto-rows-auto gap-6 mt-4 py-2">
+            {/*  */}
+            <SavingsAndInvestments />
+
+            {/*  */}
+            <FinancialOverview />
+
+            {/*  */}
+            <Expenses />
+          </div>
         </div>
       </div>
     </>

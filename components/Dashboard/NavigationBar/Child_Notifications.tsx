@@ -19,22 +19,31 @@ export default function Child_Notifications() {
     };
   });
 
-  function toggleNotifications(e) {
+  function openNotifications(e) {
     e.stopPropagation();
+
+    // Getting all dropdowns and adding the 'hidden' class to them a.k.a closing them
+    const allDropdowns = document.getElementsByClassName("dropdown");
+    for (let i = 0; i < allDropdowns.length; i++) {
+      const dropdown = allDropdowns.item(i);
+      dropdown?.classList.add("hidden");
+    }
+
+    // Opening dropdown
     notificationsModalRef.current.classList.remove("hidden");
   }
 
   return (
     <div
       ref={notificationsContainerRef}
-      onClick={toggleNotifications}
-      className="relative flex items-center justify-center p-2 bg-gray-800 rounded cursor-pointer"
+      onClick={openNotifications}
+      className="hidden lg:flex relative items-center justify-center p-2 bg-gray-800 rounded cursor-pointer"
     >
       <AiOutlineNotification size={25} />
 
       <div
         ref={notificationsModalRef}
-        className="hidden absolute top-[110%] right-0 min-w-[15em] flex flex-col bg-gray-800 pt-3 px-1 cursor-default rounded-xl"
+        className="dropdown hidden absolute top-[110%] right-0 min-w-[15em] flex flex-col bg-gray-800 pt-3 px-1 cursor-default rounded-xl"
       >
         {/* Latest Notifications */}
 
